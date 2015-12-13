@@ -1,0 +1,48 @@
+﻿@model AppPet.MVC.Models.Raca
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalhes da Raça</h2>
+<div>
+    <button onclick="document.location.href = 'http://localhost:51778/Raca/Index'" type="button" class="btn btn-primary">
+        <span class="glyphicon glyphicon-circle-arrow-left"></span> Voltar
+    </button>
+    <button onclick="document.location.href = 'http://localhost:51778/Raca/Edit/'+@Model.RacaId" type="button" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span> Editar
+    </button>
+</div>
+<hr />
+<div>
+    <h4>Raça</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Especie.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Especie.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+
+    </dl>
+</div>
+

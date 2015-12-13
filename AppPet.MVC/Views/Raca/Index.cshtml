@@ -1,0 +1,76 @@
+﻿@model PagedList.IPagedList<AppPet.MVC.Models.Raca>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Gerenciar Raças</h2>
+<p>
+    <button onclick="document.location.href = 'http://localhost:51778/Raca/Create'" type="button" class="btn btn-primary">
+        <span class="glyphicon glyphicon-file"></span> Novo Registro
+    </button>
+</p>
+@using (Html.BeginForm("Index", "Raca", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-6">
+            Palavra-chave: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control-custom" }) <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Pesquisar</button>
+        </div>
+        <div class="col-md-4">
+            Itens por página: @Html.TextBox("pages", "3", htmlAttributes: new { @class = "form-control-custom", @type = "number", @style = "width:60px" })
+        </div>
+    </div>
+}
+<br />
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr style="background-color:#f5d3e9">
+            <th>
+                <a href="#">Espécie</a>
+            </th>
+            <th>
+                @Html.ActionLink("Raça", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter, pages = ViewBag.pages })
+            </th>
+            <th>
+                @Html.ActionLink("Descrição", "Index", new { sortOrder = ViewBag.DescSortParm, currentFilter = ViewBag.CurrentFilter, pages = ViewBag.pages })
+            </th>
+            <th width="100px">
+                <a href="#">Opções</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especie.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    <button title="Editar" onclick="document.location.href = 'http://localhost:51778/Raca/Edit/' + @item.RacaId" ty type="button" class="btn btn-primary btn-xs">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <button title="Detalhes" onclick="document.location.href = 'http://localhost:51778/Raca/Details/' + @item.RacaId" ty type="button" class="btn btn-primary btn-xs">
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                    </button>
+                    <button title="Excluir" onclick="document.location.href = 'http://localhost:51778/Raca/Delete/' + @item.RacaId" ty type="button" class="btn btn-primary btn-xs">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pages = ViewBag.pages }))
